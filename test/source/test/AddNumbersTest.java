@@ -72,4 +72,7 @@ public class AddNumbersTest {
 
     @Test
     void multipleDelimiters() throws NegativeNumbersException { assertThat(StringCalculator.add("//[:][°]\n1:2°3"), is(6)); }
+
+    @Test
+    void multipleLongDelimiters() throws NegativeNumbersException { assertThat(StringCalculator.add("//[:::][°,;]\n1:::2°,;3"), is(6)); }
 }
