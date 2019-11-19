@@ -1,10 +1,14 @@
 package dssc.calculator;
 
+import test.NegativeNumbersException;
+
 import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
+
 
 public class StringCalculator {
-    public static int add(String numbers) {
+    public static int add(String numbers) throws NegativeNumbersException {
         if (numbers.isEmpty()) {
             return 0;
         }
@@ -15,12 +19,20 @@ public class StringCalculator {
             numbers = numbers.substring(firstNewline + 1);
         }
         if (numbers.contains(delimiter)) {
-            numbers = numbers.replaceAll("\n", delimiter);
-            Stream<String> tokens = Arrays.stream(numbers.split(delimiter));
-            return tokens.mapToInt(Integer::valueOf).sum();
+            String[] splitted = numbers.replaceAll("\n", delimiter).split(delimiter);
+            IntStream tokens = Arrays.stream(splitted).mapToInt(Integer::valueOf);
+            OptionalInt anyNegative = tokens.filter(x -> x < 0).findAny();
+            if (anyNegative.isPresent()) {
+                throw new NegativeNumbersException("Negatives not allowed " + anyNegative);
+            }
+            return Arrays.stream(splitted).mapToInt(Integer::valueOf).sum();
         }
         else {
-            return Integer.valueOf(numbers);
+            int num = Integer.valueOf(numbers);
+            if (num < 0) {
+                throw new NegativeNumbersException("Negatives not allowed " + num);
+            }
+            return num;
         }
     }
 }
