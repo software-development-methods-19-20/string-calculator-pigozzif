@@ -8,9 +8,15 @@ public class StringCalculator {
         if (numbers.isEmpty()) {
             return 0;
         }
-        else if (numbers.contains(",")) {
-            numbers = numbers.replaceAll("\n", ",");
-            Stream<String> tokens = Arrays.stream(numbers.split(","));
+        String delimiter = ",";
+        if (numbers.startsWith("//")) {
+            int firstNewline = numbers.indexOf("\n");
+            delimiter = numbers.substring(2, firstNewline);
+            numbers = numbers.substring(firstNewline + 1);
+        }
+        if (numbers.contains(delimiter)) {
+            numbers = numbers.replaceAll("\n", delimiter);
+            Stream<String> tokens = Arrays.stream(numbers.split(delimiter));
             return tokens.mapToInt(Integer::valueOf).sum();
         }
         else {
