@@ -24,6 +24,6 @@ public class StringCalculator {
         if (anyNegative.isPresent()) {
             throw new NegativeNumbersException("Negatives not allowed " + anyNegative);
         }
-        return Arrays.stream(splitted).mapToInt(Integer::valueOf).sum();
+        return Arrays.stream(splitted).mapToInt(Integer::valueOf).filter(x -> x <= 1000).sum();
     }
 }

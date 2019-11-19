@@ -63,4 +63,7 @@ public class AddNumbersTest {
             assertThat(e.getMessage(), startsWith("Negatives not allowed"));
         }
     }
+
+    @Test
+    void biggerThanOneThousand() throws NegativeNumbersException { assertThat(StringCalculator.add("1001,2"), is(2)); }
 }
