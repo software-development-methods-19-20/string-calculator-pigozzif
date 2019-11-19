@@ -66,4 +66,7 @@ public class AddNumbersTest {
 
     @Test
     void biggerThanOneThousand() throws NegativeNumbersException { assertThat(StringCalculator.add("1001,2"), is(2)); }
+
+    @Test
+    void anyLengthDelimiter() throws NegativeNumbersException { assertThat(StringCalculator.add("//[:::]\n1:::2:::3"), is(6)); }
 }
