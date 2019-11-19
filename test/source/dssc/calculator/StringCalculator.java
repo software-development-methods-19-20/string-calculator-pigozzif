@@ -15,12 +15,26 @@ public class StringCalculator {
         String delimiter = ",";
         if (numbers.startsWith("//")) {
             int firstNewline = numbers.indexOf("\n");
-            if (numbers.substring(2, 3).equals("[")) {
-                delimiter = numbers.substring(3, firstNewline - 1);
+            String candidates = numbers.substring(2, firstNewline);
+            int start = 0;
+            int next = candidates.indexOf("]");
+            if (next == -1) {
+                delimiter += "|" + candidates.substring(start, firstNewline - 2);
             }
             else {
-                delimiter = numbers.substring(2, firstNewline);
+                delimiter += "|" + candidates.substring(start + 1, next);
+                start = next + 1;
+                while (start < firstNewline - 2) {
+                    next = candidates.indexOf("]", start);
+                    if (next == -1) {
+                        delimiter += "|" + candidates.substring(start + 1, firstNewline - 2);
+                        break;
+                    }
+                    delimiter += "|" + candidates.substring(start + 1, next);
+                    start = next + 1;
+                }
             }
+            System.out.println(delimiter);
             numbers = numbers.substring(firstNewline + 1);
         }
         String[] splitted = numbers.replaceAll("\n", delimiter).split(delimiter);
