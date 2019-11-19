@@ -18,21 +18,12 @@ public class StringCalculator {
             delimiter = numbers.substring(2, firstNewline);
             numbers = numbers.substring(firstNewline + 1);
         }
-        if (numbers.contains(delimiter)) {
-            String[] splitted = numbers.replaceAll("\n", delimiter).split(delimiter);
-            IntStream tokens = Arrays.stream(splitted).mapToInt(Integer::valueOf);
-            OptionalInt anyNegative = tokens.filter(x -> x < 0).findAny();
-            if (anyNegative.isPresent()) {
-                throw new NegativeNumbersException("Negatives not allowed " + anyNegative);
-            }
-            return Arrays.stream(splitted).mapToInt(Integer::valueOf).sum();
+        String[] splitted = numbers.replaceAll("\n", delimiter).split(delimiter);
+        IntStream tokens = Arrays.stream(splitted).mapToInt(Integer::valueOf);
+        OptionalInt anyNegative = tokens.filter(x -> x < 0).findAny();
+        if (anyNegative.isPresent()) {
+            throw new NegativeNumbersException("Negatives not allowed " + anyNegative);
         }
-        else {
-            int num = Integer.valueOf(numbers);
-            if (num < 0) {
-                throw new NegativeNumbersException("Negatives not allowed " + num);
-            }
-            return num;
-        }
+        return Arrays.stream(splitted).mapToInt(Integer::valueOf).sum();
     }
 }
