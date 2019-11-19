@@ -9,10 +9,9 @@ public class StringCalculator {
             return 0;
         }
         else if (numbers.contains(",")) {
-            //String[] tokens = numbers.split(",");
+            numbers = numbers.replaceAll("\n", ",");
             Stream<String> tokens = Arrays.stream(numbers.split(","));
             return tokens.mapToInt(Integer::valueOf).sum();
-            //return Integer.valueOf(tokens[0]) + Integer.valueOf(tokens[1]);
         }
         else {
             return Integer.valueOf(numbers);
